@@ -5,6 +5,7 @@ some descriptive notes and would be ignored by the test harness.
 
 ## stdin
 
+The data here would appear as standard input to the script below:
 ```
 here
 is
@@ -15,13 +16,15 @@ data
 
 ## script
 
-The foo gets its input from stdin and should produce the right output...
-
+This script would be run by the test harness as teat "foo bar test":
 ```
 foo -r - run-sort | bar -prefix "x: "
 ```
 
 ## expected
+
+This expected output would be compared to the standard output from
+the script run above:
 
 ```
 x: data
@@ -33,9 +36,9 @@ x: some
 
 # simple test
 
-This is a simple test showing how you can use files.
+This is a different test showing how you can use files.
 
-## Command
+## command
 
 The foo gets its input from stdin and should produce the right output...
 
@@ -51,7 +54,7 @@ When the test is done, the files in this test environment would be deleted,
 unless there was an error, in which case, they would be left behind so
 the tester can debug.
 
-## Expected
+## expected
 
 ```
 a
@@ -65,7 +68,8 @@ Steve wishes he could write his pcaps test like this, or using
 some similar methodology.
 
 He would put a test input pcap
-brimsec/zqd/tests/data/pcap/test.pcap.
+(zqd/tests/data/pcap/test.pcap)[
+http://github.com/brimsec/zqd/tests/data/pcap/test.pcap]
 
 When the script is run a shell variable (e.g., *$data*)
 is set to the data input
@@ -83,10 +87,33 @@ pcap slice -x test.index -r $data/test.pcap -from X -to Y -w out.pcap <args>
 pcap ts -r out.pcap
 ```
 
-## Expected
+## expected
 
 ```
 1425567432.793221
 1425567047.803929
 1425567047.804906
 ```
+
+# Vector tests
+
+It should also be easy to run a bunch of tests with different inputs
+and outputs.  If a test fails, it should be easy to cut and paste
+a command from error message of the failed test to run that test
+in isolation.  We can use annontations on the fence markers to make
+this tight...
+
+```command
+zq "* | count()" $data/*.zng
+```
+```expected
+1234
+```
+
+```command
+zq "src=192.168.0.53 | count()" $data/*.zng
+```
+```expected
+12
+```
+
