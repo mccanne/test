@@ -44,9 +44,9 @@ The foo gets its input from stdin and should produce the right output...
 
 ```
 echo a > F
-echo c > F
-echo b > F
-sort F > F2
+echo c >> F
+echo b >> F
+sort F >> F2
 cat F2
 ```
 
@@ -103,10 +103,16 @@ a command from error message of the failed test to run that test
 in isolation.  We can use annontations on the fence markers to make
 this tight...
 
-```command
-zq "* | count()" $data/*.zng
+## command
 ```
-```expected
+zq "$zng | count()" foo.zng
+```
+* foo.zng
+```
+foo
+```
+* expected
+```
 1234
 ```
 
